@@ -110,6 +110,12 @@ code {
   animation: fade-in 550ms ease-in-out;
 }
 
+.product-page.card .card-image {
+  position: relative;
+  width: 30%;
+  height: auto;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

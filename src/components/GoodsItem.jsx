@@ -1,5 +1,6 @@
 import {useContext} from "react";
 import {ContextProvider, ShopContext} from "../context";
+import {Link} from "react-router-dom";
 
 function GoodsItem(props) {
     const {
@@ -25,16 +26,20 @@ function GoodsItem(props) {
         <div className="card-content">
             <p>{displayDescription}</p>
         </div>
+        <div className="card-content">
+            <p><Link to={`/product/${mainId}`}>Show more</Link> </p>
+        </div>
         <div className="card-action">
             <button className='btn' onClick={() => addToCart({
                 mainId,
                 displayName,
                 price
             })
-            }>Купить</button>
+            }>Купить
+            </button>
             {/*<span className="right" style={{fontSize:' 1.8rem'}}>{price.regularPrice} r.</span>*/}
             {/*<span className="right" style={{fontSize:' 1.8rem'}}>{price} r.</span>*/}
-            <span className="right" style={{fontSize:' 1.8rem'}}>{formated_price} r.</span>
+            <span className="right" style={{fontSize: ' 1.8rem'}}>{formated_price} r.</span>
         </div>
     </div>
 }

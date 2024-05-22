@@ -68,7 +68,9 @@ function Shop() {
                     }
                 )
             }
-        )
+        ).catch((error) => {
+            console.log(error)
+        });
 
 
         // const drupal_shop_url =  'http://shop.local/api/v1/products';
