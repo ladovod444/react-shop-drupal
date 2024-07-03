@@ -9,6 +9,11 @@ function BasketList(props) {
     const totalPrice = order.reduce((sum, elem) => {
         return sum + elem.price.regularPrice * elem.quantity
     }, 0)
+
+    const handleOrderCreate = () => {
+        console.log(order);
+    }
+
     return <ul className="collection basket-list">
         <li className="collection-item active">
             Корзина
@@ -27,7 +32,7 @@ function BasketList(props) {
         <li className="collection-item ">Общая стоимость: {totalPrice} r.</li>
 
         <li className="collection-item ">
-            <button className="secondary-content btn-small">Оформить</button>
+            <button className="secondary-content btn-small" onClick={handleOrderCreate}>Оформить</button>
         </li>
         <i className="material-icons basket-close" onClick={handleBasketShow}>close</i>
     </ul>

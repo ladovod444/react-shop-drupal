@@ -36,6 +36,10 @@ export const ContextProvider = ({children}) => {
         dispatch({type: 'TOGGLE_BASKET'});
     }
 
+    value.handleBasketClear = () => {
+        dispatch({type: 'CLEAR_CART'});
+    }
+
     value.setGoods = (data) => {
         dispatch({type: 'SET_GOODS', payload: data});
     }

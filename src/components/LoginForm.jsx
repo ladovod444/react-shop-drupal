@@ -36,7 +36,7 @@ class LoginForm extends Component  {
         })
             .then(response => response.json())
             .then(data => {
-                    //console.log('sddddsuccess', data);
+                    console.log('sddddsuccess', data);
                     localStorage.setItem('current_user', JSON.stringify(data.current_user));
                     this.setState({current_user: data.current_user, showForm: false})
                 }
@@ -101,7 +101,7 @@ class LoginForm extends Component  {
             </div>) : ''}
             {
               !current_user && !current_user.name ? ( <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
-                  : (<span className="currentUser"> Hello: <a  href="#">{current_user.name}</a> </span>)
+                  : (<span className="currentUser"> Hello: <a  href="/user/">{current_user.name}</a> </span>)
             }
         </div>
     }

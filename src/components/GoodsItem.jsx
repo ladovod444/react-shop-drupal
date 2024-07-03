@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 
 function GoodsItem(props) {
     const {
+        variation_id,
         mainId,
         displayName,
         displayDescription,
@@ -31,6 +32,7 @@ function GoodsItem(props) {
         </div>
         <div className="card-action">
             <button className='btn' onClick={() => addToCart({
+                variation_id,
                 mainId,
                 displayName,
                 price

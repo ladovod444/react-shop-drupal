@@ -11,6 +11,7 @@ import Contact from "./pages/Contact";
 import {Movie} from "./pages/Movie";
 import NotFound from "./pages/NotFound";
 import {ProductPage} from "./pages/ProductPage";
+import {UserPage} from "./pages/UserPage";
 
 // https://github.com/ladovod444/react-shop-drupal
 function App() {
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/about" Component={About}  />
                     <Route path="/contact" Component={Contact}  />
                     <Route path="/product/:id" Component={ProductPage}  />
+                    <Route path="/user" Component={UserPage}  />
                     <Route path="*" Component={NotFound}  />
                 </Routes>
             </ContextProvider>

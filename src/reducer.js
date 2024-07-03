@@ -21,6 +21,12 @@ export function reducer(state, {type, payload}) {
                 order: state.order.filter(el => el.mainId !== payload.id)
             }
 
+        case 'CLEAR_CART':
+            return {
+                ...state,
+                order: []
+            }
+
         case 'ADD_TO_CART': {
             const itemIndex = state.order.findIndex(
                 orderItem => orderItem.mainId === payload.mainId

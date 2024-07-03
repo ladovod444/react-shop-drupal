@@ -1,22 +1,19 @@
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, json} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, SCOPE, USERNAME} from "../config";
 import Preloader from "../components/Preloader";
 
 //import useHistory from
-function ProductPage() {
-    const {id} = useParams();
+function UserPage() {
+    //const {id} = useParams();
     const navigate = useNavigate();
     //console.log(id)
 
-    const [good, setGood] = useState([]);
+    const [user, setUser] = useState([]);
 
     useEffect(function getGood() {
-        // TODO
-        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product/default';
-        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product_variation/default';
-        const oauth_shop_url = 'http://shop.local/oauth/token';
 
+        const oauth_shop_url = 'http://shop.local/oauth/token';
         const data = {
             'grant_type': GRANT_TYPE,
             'client_id': CLIENT_ID,
@@ -41,11 +38,13 @@ function ProductPage() {
         ).then(
             //data => console.log(data.shop)
             data => {
-                // FETCH DATA Using oauth access_token.
+                // FETCH user DATA Using oauth access_token.
                 console.log(data.access_token)
-                const drupal_shop_url = 'http://shop.local/api/v3/products/' + id;
-                console.log('drupal_shop_url =' + drupal_shop_url)
-                fetch(drupal_shop_url, {
+                const current_user = JSON.parse(localStorage.getItem('current_user'));
+                console.log(current_user.uid);
+                const drupal_user_url = 'http://shop.local/api/v3/users/' + current_user.uid;
+                // console.log('drupal_shop_url =' + drupal_shop_url)
+                fetch(drupal_user_url, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,7 +57,7 @@ function ProductPage() {
                 ).then(
                     data => {
                         console.log(data)
-                        setGood(data)
+                        setUser(data)
                         //
                     }
                 )
@@ -68,42 +67,32 @@ function ProductPage() {
         });
     }, [])
 
-    if (good.length) {
+    if (user.length) {
         const {
-            mainId,
-            displayName,
-            displayDescription,
-            price,
-            displayAssets,
-            addToCart = Function.prototype
-        } = good[0]
-        const url = 'http://shop.local/' + displayAssets;
+            name,
+            uid,
+            email,
+            picture
+        } = user[0]
+        const url = 'http://shop.local/' + picture;
         return <>
-            <div className="product-page card" id={mainId}>
-                <div className="card-image">
-                    <img src={url} alt={displayName}/>
-                    <span className="card-title">{displayName}</span>
+            <div className="product-page card" id='test'>
+                <div className="card-image user-image">
+                    <img src={url} alt='test'/>
+                    <span className="card-title">{name}</span><br/>
+                    <span className="card-email">{email}</span>
 
                 </div>
                 <div className="card-content">
-                    <p>{displayDescription ?
-                        displayDescription : 'Еще нет описанния для этого товара'
-                    }</p>
+                    <p>
+                    </p>
                 </div>
                 <div className="card-action">
-                    <button className='btn'
-                        onClick={() => addToCart({
-                            mainId,
-                            displayName,
-                            price
-                        })
-                        }
-                    >Купить
-                    </button>
-                    <span className="right" style={{fontSize: ' 1.8rem'}}>{price} r.</span>
+
+                    <span className="right" style={{fontSize: ' 1.8rem'}}> r.</span>
                 </div>
                 <button className='btn' onClick={() => navigate(-1)}>
-                    To all products
+                    To Main page
                 </button>
             </div>
         </>
@@ -116,4 +105,4 @@ function ProductPage() {
 
 }
 
-export {ProductPage}
+export {UserPage}

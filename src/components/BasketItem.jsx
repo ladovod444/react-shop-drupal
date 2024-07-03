@@ -5,7 +5,8 @@ function BasketItem(props) {
         mainId,
         displayName,
         price,
-        quantity
+        quantity,
+        variation_id
     } = props
 
     const {removeFromCart, increaseQuantity, decreaseQuantity} = useContext(ShopContext);
