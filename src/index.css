@@ -189,6 +189,11 @@ ul[role="navigation"] > li a[aria-current="page"] {
   display: inline-block;
 }
 
+.product-name {
+  display: inline-block;
+  width: 35%;
+}
+
 /*#container {*/
 /*  margin: 1rem;*/
 /*}*/

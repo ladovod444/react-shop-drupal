@@ -9,9 +9,7 @@ function GoodsList() {
         <div className="goods" >
             {
                 goods.map(item =>
-                        // <div key={item.mainId}>test</div>
-                    <GoodsItem
-                        key={item.mainId} {...item}/>
+                    <GoodsItem key={item.mainId} {...item}/>
                 )
             }
             </div>

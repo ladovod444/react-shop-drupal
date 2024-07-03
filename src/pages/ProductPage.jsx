@@ -8,7 +8,6 @@ import {ShopContext} from "../context";
 function ProductPage() {
     const {id} = useParams();
     const navigate = useNavigate();
-    //console.log(id)
 
     const [good, setGood] = useState([]);
     const {addToCart} = useContext(ShopContext);
@@ -114,7 +113,6 @@ function ProductPage() {
             <div className='product-not-found'><Preloader/></div>
         </>
     }
-
 
 }
 

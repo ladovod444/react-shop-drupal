@@ -12,7 +12,7 @@ function BasketItem(props) {
     const {removeFromCart, increaseQuantity, decreaseQuantity} = useContext(ShopContext);
 
     return <li className="collection-item">
-        {displayName}
+        <span className="product-name">{displayName}</span>
         <i className="material-icons basket-increase" onClick={() => increaseQuantity(mainId)}>add</i>
         <i className="material-icons basket-decrease" onClick={() => decreaseQuantity(mainId)}>remove</i>
         {/*x {quantity} = {price.regularPrice * quantity} r.*/}
@@ -21,8 +21,6 @@ function BasketItem(props) {
         <span className="secondary-content" onClick={() => removeFromCart(mainId)}>
             <i className="material-icons basket-delete">close</i>
         </span>
-
-
     </li>
 }
 
