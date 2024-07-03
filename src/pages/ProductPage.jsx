@@ -1,7 +1,8 @@
 import {useParams, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, SCOPE, USERNAME} from "../config";
 import Preloader from "../components/Preloader";
+import {ShopContext} from "../context";
 
 //import useHistory from
 function ProductPage() {
@@ -10,6 +11,7 @@ function ProductPage() {
     //console.log(id)
 
     const [good, setGood] = useState([]);
+    const {addToCart} = useContext(ShopContext);
 
     useEffect(function getGood() {
         // TODO
@@ -75,11 +77,11 @@ function ProductPage() {
             displayDescription,
             price,
             displayAssets,
-            addToCart = Function.prototype
+            //addToCart = Function.prototype
         } = good[0]
         const url = 'http://shop.local/' + displayAssets;
         return <>
-            <div className="product-page card" id={mainId}>
+            <div className="container content product-page card" id={mainId}>
                 <div className="card-image">
                     <img src={url} alt={displayName}/>
                     <span className="card-title">{displayName}</span>

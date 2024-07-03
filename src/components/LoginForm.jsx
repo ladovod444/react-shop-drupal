@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom";
 class LoginForm extends Component  {
     state = {
         username: '',
@@ -101,7 +102,7 @@ class LoginForm extends Component  {
             </div>) : ''}
             {
               !current_user && !current_user.name ? ( <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
-                  : (<span className="currentUser"> Hello: <a  href="/user/">{current_user.name}</a> </span>)
+                  : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link> </span>)
             }
         </div>
     }

@@ -15,7 +15,6 @@ function BasketList() {
     const [orderResults, setOrderResults] = useState([]);
 
     const handleOrderCreate = () => {
-
         const user = localStorage.getItem('current_user');
         const user_obj = user ? JSON.parse(user) : ''
         const data = {
@@ -80,7 +79,6 @@ function BasketList() {
                 </li>
 
             </ul>}
-
 
         <i className="material-icons basket-close" onClick={handleBasketShow}>close</i>
     </div>
