@@ -1,7 +1,7 @@
 import {useContext, useState} from "react";
 import {ShopContext} from "../context";
 import BasketItem from "./BasketItem";
-import {SHOP_URL} from "../config";
+import {API_CREATE_ORDER, SHOP_URL} from "../config";
 function BasketList() {
     let {
         order = [],
@@ -25,7 +25,7 @@ function BasketList() {
         console.log(user);
         console.log('data = ', data);
 
-        const drupal_shop_url= SHOP_URL + '/api/v2/shop-order-resource';
+        const drupal_shop_url= SHOP_URL + API_CREATE_ORDER;
         fetch(drupal_shop_url, {
             method: 'POST',
             //method: 'GET',

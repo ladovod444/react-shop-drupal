@@ -1,6 +1,16 @@
 import {useParams, useNavigate, json, Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, OAUTH_TOKEN_URL, PASSWORD, SCOPE, SHOP_URL, USERNAME} from "../config";
+import {
+    API_USER,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    GRANT_TYPE,
+    OAUTH_TOKEN_URL,
+    PASSWORD,
+    SCOPE,
+    SHOP_URL,
+    USERNAME
+} from "../config";
 import Preloader from "../components/Preloader";
 
 //import useHistory from
@@ -42,7 +52,7 @@ function UserPage() {
                 console.log(data.access_token)
                 const current_user = JSON.parse(localStorage.getItem('current_user'));
                 console.log(current_user.uid);
-                const drupal_user_url = SHOP_URL + '/api/v3/users/' + current_user.uid;
+                const drupal_user_url = SHOP_URL + API_USER + current_user.uid;
                 // console.log('drupal_shop_url =' + drupal_shop_url)
                 fetch(drupal_user_url, {
                     method: 'GET',
