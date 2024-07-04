@@ -1,6 +1,6 @@
-import {useParams, useNavigate, json} from "react-router-dom";
+import {useParams, useNavigate, json, Link} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, SCOPE, USERNAME} from "../config";
+import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, OAUTH_TOKEN_URL, PASSWORD, SCOPE, SHOP_URL, USERNAME} from "../config";
 import Preloader from "../components/Preloader";
 
 //import useHistory from
@@ -13,7 +13,7 @@ function UserPage() {
 
     useEffect(function getGood() {
 
-        const oauth_shop_url = 'http://shop.local/oauth/token';
+        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
         const data = {
             'grant_type': GRANT_TYPE,
             'client_id': CLIENT_ID,
@@ -42,7 +42,7 @@ function UserPage() {
                 console.log(data.access_token)
                 const current_user = JSON.parse(localStorage.getItem('current_user'));
                 console.log(current_user.uid);
-                const drupal_user_url = 'http://shop.local/api/v3/users/' + current_user.uid;
+                const drupal_user_url = SHOP_URL + '/api/v3/users/' + current_user.uid;
                 // console.log('drupal_shop_url =' + drupal_shop_url)
                 fetch(drupal_user_url, {
                     method: 'GET',
@@ -74,17 +74,22 @@ function UserPage() {
             email,
             picture
         } = user[0]
-        const url = 'http://shop.local/' + picture;
+        const url = SHOP_URL + '/' + picture;
         return <>
-            <div className="product-page card" id='test'>
-                <div className="card-image user-image">
+            <div className="user-page card container content" id='test'>
+                <div className="user-image">
                     <img src={url} alt='test'/>
-                    <span className="card-title">{name}</span><br/>
-                    <span className="card-email">{email}</span>
+                    <p>
+                        <span className="card-title">{name}</span><br/>
+                        <span className="card-email">{email}</span>
+
+                        {/*http://localhost:3001/orders/track/26*/}
+                    </p>
 
                 </div>
                 <div className="card-content">
                     <p>
+                        <Link to='/orders'>My orders</Link>
                     </p>
                 </div>
                 <div className="card-action">

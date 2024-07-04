@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {ContextProvider, ShopContext} from "../context";
 import {Link} from "react-router-dom";
+import {SHOP_URL} from "../config";
 
 function GoodsItem(props) {
     const {
@@ -14,7 +15,7 @@ function GoodsItem(props) {
 
     const {addToCart} = useContext(ShopContext);
 
-    const url = 'http://shop.local/' + displayAssets;
+    const url = SHOP_URL +  '/' + displayAssets;
     const formated_price = parseInt(price);
 
     return <div className="card" id={mainId}>

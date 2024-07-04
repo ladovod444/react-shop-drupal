@@ -1,6 +1,16 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
-import {CLIENT_ID, CLIENT_SECRET, GRANT_TYPE, PASSWORD, SCOPE, USERNAME} from "../config";
+import {
+    API_PRODUCT,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    GRANT_TYPE,
+    OAUTH_TOKEN_URL,
+    PASSWORD,
+    SCOPE,
+    SHOP_URL,
+    USERNAME
+} from "../config";
 import Preloader from "../components/Preloader";
 import {ShopContext} from "../context";
 
@@ -16,7 +26,7 @@ function ProductPage() {
         // TODO
         //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product/default';
         //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product_variation/default';
-        const oauth_shop_url = 'http://shop.local/oauth/token';
+        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
 
         const data = {
             'grant_type': GRANT_TYPE,
@@ -44,7 +54,7 @@ function ProductPage() {
             data => {
                 // FETCH DATA Using oauth access_token.
                 console.log(data.access_token)
-                const drupal_shop_url = 'http://shop.local/api/v3/products/' + id;
+                const drupal_shop_url = SHOP_URL + API_PRODUCT + id;
                 console.log('drupal_shop_url =' + drupal_shop_url)
                 fetch(drupal_shop_url, {
                     method: 'GET',
@@ -78,34 +88,37 @@ function ProductPage() {
             displayAssets,
             //addToCart = Function.prototype
         } = good[0]
-        const url = 'http://shop.local/' + displayAssets;
+        const url = SHOP_URL + displayAssets;
+        const formated_price = parseInt(price);
         return <>
             <div className="container content product-page card" id={mainId}>
-                <div className="card-image">
-                    <img src={url} alt={displayName}/>
-                    <span className="card-title">{displayName}</span>
+                <div className="row">
+                    <div className="card-image">
+                        <img src={url} alt={displayName}/>
+                        <span className="card-title">{displayName}</span>
 
-                </div>
-                <div className="card-content">
-                    <p>{displayDescription ?
-                        displayDescription : 'Еще нет описанния для этого товара'
-                    }</p>
-                </div>
-                <div className="card-action">
-                    <button className='btn'
-                        onClick={() => addToCart({
-                            mainId,
-                            displayName,
-                            price
-                        })
-                        }
-                    >Купить
+                    </div>
+                    <div className="card-content">
+                        <p>{displayDescription ?
+                            displayDescription : 'Еще нет описанния для этого товара'
+                        }</p>
+                    </div>
+                    <div className="card-action">
+                        <button className='btn'
+                                onClick={() => addToCart({
+                                    mainId,
+                                    displayName,
+                                    price
+                                })
+                                }
+                        >Купить
+                        </button>
+                        <span className="right" style={{fontSize: ' 1.8rem'}}>{formated_price} r.</span>
+                    </div>
+                    <button className='btn' onClick={() => navigate(-1)}>
+                        To all products
                     </button>
-                    <span className="right" style={{fontSize: ' 1.8rem'}}>{price} r.</span>
                 </div>
-                <button className='btn' onClick={() => navigate(-1)}>
-                    To all products
-                </button>
             </div>
         </>
     } else {

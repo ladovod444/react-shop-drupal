@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import {SHOP_URL} from "../config";
 class LoginForm extends Component  {
     state = {
         username: '',
@@ -24,7 +25,8 @@ class LoginForm extends Component  {
         const password = this.state.password
 
         // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
-        fetch('http://shop.local/user/login?_format=json', {
+        const login_url = SHOP_URL + '/user/login?_format=json'
+            fetch(login_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

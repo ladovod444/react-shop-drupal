@@ -12,6 +12,7 @@ import {Movie} from "./pages/Movie";
 import NotFound from "./pages/NotFound";
 import {ProductPage} from "./pages/ProductPage";
 import {UserPage} from "./pages/UserPage";
+import UserOrders from "./pages/UserOrders";
 import ArticlesList from "./pages/ArticlesList";
 import Cart from "./components/Cart";
 
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/articles" Component={ArticlesList}/>
                         <Route path="/product/:id" Component={ProductPage}/>
                         <Route path="/user" Component={UserPage}/>
+                        <Route path="/orders" Component={UserOrders}/>
                         <Route path="*" Component={NotFound}/>
                     </Routes>
                 </ContextProvider>

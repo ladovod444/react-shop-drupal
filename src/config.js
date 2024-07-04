@@ -7,6 +7,10 @@ const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET
 const SCOPE = process.env.REACT_APP_SCOPE
 const USERNAME = process.env.REACT_APP_USERNAME
 const PASSWORD = process.env.REACT_APP_PASSWORD
+const SHOP_URL = process.env.REACT_APP_SHOP_URL
+const OAUTH_TOKEN_URL = process.env.REACT_APP_SHOP_OAUTH_TOKEN_URL
+const API_PRODUCTS = process.env.REACT_APP_SHOP_API_PRODUCTS
+const API_PRODUCT = process.env.REACT_APP_SHOP_API_PRODUCT
 
 export  {
    API_KEY,
@@ -16,5 +20,9 @@ export  {
    CLIENT_SECRET,
    SCOPE,
    USERNAME,
-   PASSWORD
+   PASSWORD,
+   SHOP_URL,
+   OAUTH_TOKEN_URL,
+   API_PRODUCTS,
+   API_PRODUCT
 }

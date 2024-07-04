@@ -1,6 +1,16 @@
 import {useEffect, useContext} from "react";
 import {ShopContext} from "../context";
-import {GRANT_TYPE, CLIENT_ID, CLIENT_SECRET, SCOPE, USERNAME, PASSWORD} from "../config";
+import {
+    GRANT_TYPE,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    SCOPE,
+    USERNAME,
+    PASSWORD,
+    SHOP_URL,
+    OAUTH_TOKEN_URL,
+    API_PRODUCTS
+} from "../config";
 import Preloader from "./Preloader";
 import PaginatedItems from "./PaginatedItems"
 
@@ -16,7 +26,7 @@ function Shop() {
         // TODO
         //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product/default';
         //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product_variation/default';
-        const oauth_shop_url = 'http://shop.local/oauth/token';
+        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
 
         const data = {
             'grant_type': GRANT_TYPE,
@@ -44,7 +54,7 @@ function Shop() {
             data => {
                 // FETCH DATA Using oauth access_token.
                 console.log(data.access_token)
-                const drupal_shop_url = 'http://shop.local/api/v2/products';
+                const drupal_shop_url = SHOP_URL +  API_PRODUCTS;
                 fetch(drupal_shop_url, {
                     method: 'GET',
                     headers: {

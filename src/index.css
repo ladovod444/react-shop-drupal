@@ -194,6 +194,15 @@ ul[role="navigation"] > li a[aria-current="page"] {
   width: 35%;
 }
 
+.product-page.card {
+  margin: 0 auto;
+}
+
+.user-page {
+  padding: 15px;
+  margin: 0 auto;
+}
+
 /*#container {*/
 /*  margin: 1rem;*/
 /*}*/
