@@ -36,6 +36,10 @@ export const ContextProvider = ({children}) => {
         dispatch({type: 'TOGGLE_BASKET'});
     }
 
+    value.handleFormShow = () => {
+        dispatch({type: 'TOGGLE_FORM'});
+    }
+
     value.handleBasketClear = () => {
         dispatch({type: 'CLEAR_CART'});
     }

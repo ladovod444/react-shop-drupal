@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import LoginForm from "./LoginForm";
+import RegisterForm from "./RegisterForm";
 import Cart from "./Cart";
 import {useContext} from "react";
 import {ShopContext} from "../context";
@@ -12,6 +13,8 @@ function Header() {
             <div className="nav-wrapper">
                 <a href="#" className="brand-logo">React Shop</a>
                 <LoginForm/>
+                <span> OR </span>
+                <RegisterForm/>
                 <ul id="nav-mobile" className="right hide-on-med-and-down green darken-1">
                     <Link to='/'>Home</Link>
                     <Link to='/contact'>Contacts</Link>

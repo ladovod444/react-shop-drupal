@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
 import {SHOP_URL} from "../config";
-class LoginForm extends Component  {
+
+class LoginForm extends Component {
     state = {
         username: '',
         email: '',
@@ -26,15 +27,15 @@ class LoginForm extends Component  {
 
         // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
         const login_url = SHOP_URL + '/user/login?_format=json'
-            fetch(login_url, {
+        fetch(login_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': csrfToken
             },
             body: JSON.stringify({
-                'name':username,
-                'pass' : password,
+                'name': username,
+                'pass': password,
             }),
         })
             .then(response => response.json())
@@ -47,14 +48,14 @@ class LoginForm extends Component  {
     }
 
     validateName = () => {
-       if (this.state.username.length < 5) {
-          //alert('Your first name can\'t be less then 5 letters');
-       }
+        if (this.state.username.length < 5) {
+            //alert('Your first name can\'t be less then 5 letters');
+        }
     }
 
     validateMail = () => {
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email)) {
-           // return true;
+            // return true;
             //alert('You have entered invalid email');
         }
     }
@@ -75,36 +76,40 @@ class LoginForm extends Component  {
     render() {
         const {username, email, password, showForm, current_user} = this.state;
         return <div className="loginFormWrapper">
-            {  showForm ? (<div className='loginForm'>
+            {showForm ? (<div className='loginForm'>
+                <div className="form-header"><i className="material-icons form-close" onClick={this.handleshowForm}>close</i></div>
+                <div className="form-inputs">
                 <input
-                    type="text"
-                    placeholder="username"
-                    name="username"
-                    value={username}
-                    onChange={this.handleChange}
-                    onBlur={this.validateName}
-                />
-                {/*<input*/}
-                {/*    type="email"*/}
-                {/*    placeholder="email"*/}
-                {/*    name="email"*/}
-                {/*    value={email}*/}
-                {/*    onChange={this.handleChange}*/}
-                {/*    onBlur={this.validateMail}*/}
-                {/*/>*/}
-                <input
-                    type="password"
-                    placeholder="password"
-                    name="password"
-                    value={password}
-                    onChange={this.handleChange}
-                    onBlur={this.validatePassword}
-                />
-                <button className="secondary-content btn-small" onClick={this.handleLogin}>Login</button>
+                        type="text"
+                        placeholder="username"
+                        name="username"
+                        value={username}
+                        onChange={this.handleChange}
+                        onBlur={this.validateName}
+                    />
+                    {/*<input*/}
+                    {/*    type="email"*/}
+                    {/*    placeholder="email"*/}
+                    {/*    name="email"*/}
+                    {/*    value={email}*/}
+                    {/*    onChange={this.handleChange}*/}
+                    {/*    onBlur={this.validateMail}*/}
+                    {/*/>*/}
+                    <input
+                        type="password"
+                        placeholder="password"
+                        name="password"
+                        value={password}
+                        onChange={this.handleChange}
+                        onBlur={this.validatePassword}
+                    />
+                    <button className="secondary-content btn-small" onClick={this.handleLogin}>Login</button>
+                </div>
             </div>) : ''}
             {
-              !current_user && !current_user.name ? ( <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
-                  : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link> </span>)
+                !current_user && !current_user.name ? (
+                        <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
+                    : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link> </span>)
             }
         </div>
     }

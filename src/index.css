@@ -63,7 +63,7 @@ code {
   margin-right: 10px;
 }
 
-.basket-list, .loginForm {
+.basket-list, .loginForm, .registerForm {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -77,25 +77,43 @@ code {
   z-index: 2;
 }
 
-.loginForm {
+.loginForm, .registerForm {
   z-index: 3;
-  padding: 20px;
+
 }
 
-.toggleLoginForm, .loginFormWrapper {
+.toggleLoginForm, .loginFormWrapper, .registerFormWrapper {
   float: right;
 }
 
-.basket-close {
+.basket-close, .nav-wrapper .form-close {
   cursor: pointer;
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
   color: white;
+  height: 56px;
+  line-height: unset;
 }
 
 #nav-mobile {
   margin-right: 10%;
+}
+
+.form-header {
+  background-color: #26a69a;
+  color: #eafaf9;
+  line-height: 1.5rem;
+  padding: 10px 20px;
+  margin: 0;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative;
+  height: 35px;
+}
+
+.form-inputs {
+  overflow: hidden;
+  padding: 20px;
 }
 
 /*.basket-list .collection-item {*/
