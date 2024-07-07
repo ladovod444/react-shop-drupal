@@ -3,6 +3,10 @@ import {Link} from "react-router-dom";
 import {SHOP_URL} from "../config";
 
 class LoginForm extends Component {
+    // constructor(props) {
+    //     super();
+    //     //props.hideRegister
+    // }
     state = {
         username: '',
         email: '',
@@ -43,6 +47,7 @@ class LoginForm extends Component {
                     console.log('sddddsuccess', data);
                     localStorage.setItem('current_user', JSON.stringify(data.current_user));
                     this.setState({current_user: data.current_user, showForm: false})
+                    this.props.hideRegister(false)
                 }
             );
     }
@@ -64,6 +69,12 @@ class LoginForm extends Component {
         if (this.state.password.length < 3) {
             //alert('Your password can\'t be less then 3 letters');
         }
+    }
+
+    Logout = () => {
+        this.setState({current_user: ''})
+        localStorage.removeItem('current_user')
+        this.props.hideRegister(true)
     }
 
     componentDidMount() {
@@ -109,7 +120,8 @@ class LoginForm extends Component {
             {
                 !current_user && !current_user.name ? (
                         <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
-                    : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link> </span>)
+                    : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link>
+                        <div className="divider"></div> <a className="logout" href="#" onClick={this.Logout}>Logout</a> </span>)
             }
         </div>
     }

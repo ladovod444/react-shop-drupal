@@ -82,8 +82,16 @@ code {
 
 }
 
-.toggleLoginForm, .loginFormWrapper, .registerFormWrapper {
+.toggleLoginForm, .loginFormWrapper, .registerFormWrapper, .divider {
   float: right;
+}
+
+.divider {
+  width: 20px;
+}
+
+.logout {
+  text-decoration: underline;
 }
 
 .basket-close, .nav-wrapper .form-close {
