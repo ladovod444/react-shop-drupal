@@ -8,8 +8,6 @@ function Items({ currentItems }) {
                     <div>
                         <GoodsItem key={item.mainId} {...item}/>
                     </div>
-
-
                 ))}
             </div>
         </div>

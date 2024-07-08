@@ -44,7 +44,7 @@ class LoginForm extends Component {
         })
             .then(response => response.json())
             .then(data => {
-                    console.log('sddddsuccess', data);
+                    console.log('Success', data);
                     localStorage.setItem('current_user', JSON.stringify(data.current_user));
                     this.setState({current_user: data.current_user, showForm: false})
                     this.props.hideRegister(false)

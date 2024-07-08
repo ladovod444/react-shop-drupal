@@ -102,10 +102,7 @@ function UserPage() {
                         <Link to='/orders'>My orders</Link>
                     </p>
                 </div>
-                <div className="card-action">
 
-                    <span className="right" style={{fontSize: ' 1.8rem'}}> r.</span>
-                </div>
                 <button className='btn' onClick={() => navigate(-1)}>
                     To Main page
                 </button>

@@ -105,18 +105,9 @@ function RegisterForm({hideLogin}) {
             data => {
                 //const register_url = SHOP_URL + API_USER_REGISTER + '?_format=json'
                 //const register_url = SHOP_URL + API_USER_REGISTER
-                //const register_url = SHOP_URL + '/api/user-registration?_format=json'
-
-
                 const register_url = SHOP_URL + '/api/user-registration'
 
-
-                //const register_url = SHOP_URL + API_CREATE_ORDER
-
-                //const register_url = SHOP_URL + '/user/register?_format=json'
-                //const register_url = SHOP_URL + '/user/login?_format=json'
                 console.log('reg data=', data.access_token)
-
                 const body = JSON.stringify({
                     'username': username,
                     'mail': email,
@@ -138,10 +129,6 @@ function RegisterForm({hideLogin}) {
                     .then(response => response.json())
                     .then(data => {
                             console.log('Success', data);
-
-                            // localStorage.setItem('current_user', JSON.stringify(data.current_user));
-                            //
-                            // setCurrent_user(data.current_user)
                             if (data.status === 'Success') {
                                 const login_current_user = {
                                     name: username,

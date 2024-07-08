@@ -229,6 +229,14 @@ ul[role="navigation"] > li a[aria-current="page"] {
   margin: 0 auto;
 }
 
+.total-sum {
+  text-align: right;
+}
+
+order_item {
+  margin-bottom: 30px;
+}
+
 /*#container {*/
 /*  margin: 1rem;*/
 /*}*/
