@@ -120,7 +120,7 @@ class LoginForm extends Component {
             {
                 !current_user && !current_user.name ? (
                         <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
-                    : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link>
+                    : (<span className="currentUser"> Hello: <Link className="user-page-link" to="/user/">{current_user.name}</Link>
                         <div className="divider"></div> <a className="logout" href="#" onClick={this.Logout}>Logout</a> </span>)
             }
         </div>

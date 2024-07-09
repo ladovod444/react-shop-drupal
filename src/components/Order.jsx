@@ -1,4 +1,4 @@
-import {useEffect, useContext, useState} from "react";
+//import {useEffect, useContext, useState} from "react";
 import OrderItem from "./OrderItem";
 
 function Order(props) {
@@ -30,7 +30,7 @@ function Order(props) {
                 </thead>
                 <tbody>
                 {order_items_full.map(order_item_full =>
-                    <OrderItem order_item_full={order_item_full}/>
+                    <OrderItem key={order_item_full.oid} order_item_full={order_item_full}/>
                 )}
                 </tbody>
             </table>

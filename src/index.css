@@ -92,6 +92,7 @@ code {
 
 .logout {
   text-decoration: underline;
+  margin-left: 10px;
 }
 
 .basket-close, .nav-wrapper .form-close {
@@ -233,8 +234,12 @@ ul[role="navigation"] > li a[aria-current="page"] {
   text-align: right;
 }
 
-order_item {
+.order_item {
   margin-bottom: 30px;
+}
+
+.currentUser a.user-page-link {
+  color: #1c4d6b;
 }
 
 /*#container {*/

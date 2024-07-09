@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {ShopContext} from "../context";
 import BasketItem from "./BasketItem";
 import {API_CREATE_ORDER, SHOP_URL} from "../config";
@@ -13,7 +13,40 @@ function BasketList() {
         return sum + elem.price * elem.quantity
     }, 0)
 
+    const current_user = localStorage.getItem('current_user');
+    //console.log(current_user);
+
     const [orderResults, setOrderResults] = useState([]);
+    const [email, setEmail] = useState('');
+    const [isValidMail, setIsValidMail] = useState(false);
+
+    const validateMail = () => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return false;
+            //alert('You have entered invalid email');
+        }
+    }
+    const handleChange = (event) => {
+        //console.log(event.target.value)
+        const input_value = event.target.value;
+        // eslint-disable-next-line default-case
+        switch (event.target.name) {
+            case 'email':
+                const email_check = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input_value)
+                console.log('email_check = ', email_check);
+                setEmail(input_value);
+                // if (validateMail(input_value)) {
+                //     setEmail(input_value);
+                // }
+                if (email_check) {
+                    setIsValidMail(true);
+                }
+                else {
+                    setIsValidMail(false)
+                }
+                break;
+        }
+    }
 
     const handleOrderCreate = () => {
         const user = localStorage.getItem('current_user');
@@ -21,6 +54,7 @@ function BasketList() {
         const data = {
             order: order,
             user_uid: user_obj ? user_obj.uid : '',
+            mail: email ? email : '',
         }
         console.log(user);
         console.log('data = ', data);
@@ -75,9 +109,25 @@ function BasketList() {
                 }
                 <li className="collection-item ">Общая стоимость: {totalPrice} r.</li>
 
+                { !current_user ?
+                    <li className="collection-item ">
+                        <input
+                            type="email"
+                            placeholder="Please provide your email"
+                            name="email"
+                            value={email}
+                            onChange={handleChange}
+                            onBlur={validateMail}
+                        />
+                    </li> : ''
+                }
+
+                {/*{ current_user || (email && validateMail(email)) ?*/}
+                { current_user || (email && isValidMail) ?
                 <li className="collection-item ">
                     <button className="secondary-content btn-small" onClick={handleOrderCreate}>Оформить</button>
-                </li>
+                </li> : ''
+                }
 
             </ul>}
 
