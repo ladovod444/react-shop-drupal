@@ -18,16 +18,20 @@ import {ShopContext} from "../context";
 function RegisterForm({hideLogin}) {
 
     let user = ''
-    // if (localStorage.getItem('current_user')) {
-    //     const user = JSON.parse(localStorage.getItem('current_user'));
-    //     //setCurrent_user(current_user)
-    // }
+
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showForm, setShowForm] = useState('');
     const [current_user, setCurrent_user] = useState(user);
+
+    // useEffect(function getGoods() {
+    //     if (localStorage.getItem('current_user')) {
+    //         const user = JSON.parse(localStorage.getItem('current_user'));
+    //         setCurrent_user(user)
+    //     }
+    // }, []);
 
     const handleChange = (event) => {
         //console.log(event.target.value)
@@ -42,7 +46,6 @@ function RegisterForm({hideLogin}) {
             case 'password':
                 setPassword(input_value);
                 break;
-
         }
     }
 

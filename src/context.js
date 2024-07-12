@@ -48,6 +48,10 @@ export const ContextProvider = ({children}) => {
         dispatch({type: 'SET_GOODS', payload: data});
     }
 
+    value.loginUser = (data) => {
+        dispatch({type: 'LOGIN_USER', payload: data});
+    }
+
     return <ShopContext.Provider value={value}>
         {children}
     </ShopContext.Provider>

@@ -54,9 +54,15 @@ export function reducer(state, {type, payload}) {
             return {
                 ...state,
                 order: newOrder,
-                alertName: payload.displayName
+                alertName: payload.displayName + ' добавлен в корзину'
             }
         }
+
+        case 'LOGIN_USER':
+            return {
+                ...state,
+                alertName: 'Successfully logined ' + payload
+            }
 
         case 'INCREMENT_QUANTITY':
             return {

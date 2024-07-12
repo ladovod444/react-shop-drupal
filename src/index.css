@@ -149,6 +149,10 @@ code {
   height: auto;
 }
 
+.login-status {
+  color: #ff0000;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

@@ -1,33 +1,53 @@
-import React, {Component} from "react";
+import React, {Component, useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {SHOP_URL} from "../config";
+import {
+    API_PRODUCTS,
+    CLIENT_ID,
+    CLIENT_SECRET,
+    GRANT_TYPE,
+    OAUTH_TOKEN_URL,
+    PASSWORD,
+    SCOPE,
+    SHOP_URL,
+    USERNAME
+} from "../config";
 
-class LoginForm extends Component {
-    // constructor(props) {
-    //     super();
-    //     //props.hideRegister
-    // }
-    state = {
-        username: '',
-        email: '',
-        password: '',
-        showForm: false,
-        current_user: false
-    }
+import {ShopContext} from "../context";
 
-    handleChange = (event) => {
+function LoginForm(props) {
+
+    const {loginUser, alertName} = useContext(ShopContext);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [showForm, setShowForm] = useState(false);
+    const [current_user,setCurrentUSer] = useState(false);
+    const [statusMessage,setStatusMessage] = useState(false);
+
+    const handleChange = (event) => {
         console.log(event.target.value)
-        this.setState({[event.target.name]: event.target.value})
+        //this.setState({[event.target.name]: event.target.value})
+        const input_value = event.target.value;
+        switch (event.target.name) {
+            case 'username':
+                setUsername(input_value);
+                break;
+            case 'email':
+                setEmail(input_value);
+                break;
+            case 'password':
+                setPassword(input_value);
+                break;
+        }
     }
 
-    handleshowForm = (event) => {
-        this.setState({showForm: !this.state.showForm})
+    const handleshowForm = (event) => {
+       // this.setState({showForm: !this.state.showForm})
+        setShowForm(!showForm)
     }
 
-    handleLogin = () => {
+    const handleLogin = () => {
         const csrfToken = 'test';
-        const username = this.state.username
-        const password = this.state.password
 
         // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
         const login_url = SHOP_URL + '/user/login?_format=json'
@@ -45,58 +65,72 @@ class LoginForm extends Component {
             .then(response => response.json())
             .then(data => {
                     console.log('Success', data);
-                    localStorage.setItem('current_user', JSON.stringify(data.current_user));
-                    this.setState({current_user: data.current_user, showForm: false})
-                    this.props.hideRegister(false)
+                    if (data.current_user) {
+                        localStorage.setItem('current_user', JSON.stringify(data.current_user));
+                        //this.setState({current_user: data.current_user, showForm: false})
+                        setCurrentUSer(data.current_user);
+                        setShowForm(false)
+                        props.hideRegister(false)
+                        console.log(data.current_user)
+                        //return
+                        loginUser(data.current_user.name)
+                    }
+                    else {
+                        console.log(data.message)
+                        setStatusMessage(data.message)
+                    }
                 }
             );
     }
 
-    validateName = () => {
-        if (this.state.username.length < 5) {
+    const validateName = () => {
+        if (username.length < 5) {
             //alert('Your first name can\'t be less then 5 letters');
         }
     }
 
-    validateMail = () => {
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.state.email)) {
+    const validateMail = () => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             // return true;
             //alert('You have entered invalid email');
         }
     }
 
-    validatePassword = () => {
-        if (this.state.password.length < 3) {
+    const validatePassword = () => {
+        if (password.length < 3) {
             //alert('Your password can\'t be less then 3 letters');
         }
     }
 
-    Logout = () => {
-        this.setState({current_user: ''})
+    const Logout = () => {
+        setCurrentUSer('')
         localStorage.removeItem('current_user')
-        this.props.hideRegister(true)
+        props.hideRegister(true)
     }
 
-    componentDidMount() {
+    useEffect(function getGoods() {
         if (localStorage.getItem('current_user')) {
             const current_user = JSON.parse(localStorage.getItem('current_user'));
-            this.setState({current_user: current_user})
+            setCurrentUSer(current_user)
+            props.hideRegister(false)
         }
-    }
+    }, []);
 
-    render() {
-        const {username, email, password, showForm, current_user} = this.state;
+    //render() {
+        //const {username, email, password, showForm, current_user, statusMessage} = this.state;
         return <div className="loginFormWrapper">
             {showForm ? (<div className='loginForm'>
-                <div className="form-header"><i className="material-icons form-close" onClick={this.handleshowForm}>close</i></div>
+
+                <div className="form-header"><i className="material-icons form-close" onClick={handleshowForm}>close</i></div>
                 <div className="form-inputs">
-                <input
+                    <div className="login-status">{statusMessage}</div>
+                    <input
                         type="text"
                         placeholder="username"
                         name="username"
                         value={username}
-                        onChange={this.handleChange}
-                        onBlur={this.validateName}
+                        onChange={handleChange}
+                        onBlur={validateName}
                     />
                     {/*<input*/}
                     {/*    type="email"*/}
@@ -111,20 +145,20 @@ class LoginForm extends Component {
                         placeholder="password"
                         name="password"
                         value={password}
-                        onChange={this.handleChange}
-                        onBlur={this.validatePassword}
+                        onChange={handleChange}
+                        onBlur={validatePassword}
                     />
-                    <button className="secondary-content btn-small" onClick={this.handleLogin}>Login</button>
+                    <button className="secondary-content btn-small" onClick={handleLogin}>Login</button>
                 </div>
             </div>) : ''}
             {
                 !current_user && !current_user.name ? (
-                        <a className="toggleLoginForm" href="#" onClick={this.handleshowForm}>Login</a>)
+                        <a className="toggleLoginForm" href="#" onClick={handleshowForm}>Login</a>)
                     : (<span className="currentUser"> Hello: <Link className="user-page-link" to="/user/">{current_user.name}</Link>
-                        <div className="divider"></div> <a className="logout" href="#" onClick={this.Logout}>Logout</a> </span>)
+                        <div className="divider"></div> <a className="logout" href="#" onClick={Logout}>Logout</a> </span>)
             }
         </div>
-    }
+    //}
 }
 
 export default LoginForm;

@@ -18,7 +18,7 @@ function Alert() {
 
     return (
         <div id="toast-container">
-            <div className="toast">{name} добавлен в корзину</div>
+            <div className="toast">{name} </div>
         </div>
     );
 }
