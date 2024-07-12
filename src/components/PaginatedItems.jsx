@@ -14,6 +14,11 @@ function PaginatedItems({ itemsPerPage, goods }) {
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = goods.slice(itemOffset, endOffset);
+    // const currentItems = goods.length > 10 ? goods.slice(itemOffset, endOffset) : goods;
+
+    console.log(`Loading goods = ${goods}`);
+    console.log(`Loading items = ${currentItems}`);
+
     const pageCount = Math.ceil(goods.length / itemsPerPage);
 
     // Invoke when user click to request another page.

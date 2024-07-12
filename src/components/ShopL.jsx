@@ -54,7 +54,9 @@ function Shop() {
     }
 
     const getAllGoods = async (data) => {
-        const response = await fetch(SHOP_URL + API_PRODUCTS, {
+        //console.log(SHOP_URL + API_PRODUCTS);
+        //console.log(data); return;
+        const response = await fetch(SHOP_URL + API_PRODUCTS,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -66,10 +68,10 @@ function Shop() {
 
     // Search
     const handleSearch = (str) => {
-        if (str && str.length >=3) {
+        if (str) {
             console.log('goods=', goods); //return
             console.log('str=', str); //return
-            setFilteredGoods(
+            setGoods(
                 goods.filter(item =>
                     item.displayName.toLowerCase().includes(str.toLowerCase())
                 )
@@ -78,57 +80,96 @@ function Shop() {
                 pathname,
                 search: `?search=${str}`
             });
-       }
-        else {
-            getOauth().then(
-                data => {
-                    //console.log(data)
-                    getAllGoods(data).then(
-                        data => {
-                            setGoods(data)
-                            setFilteredGoods(data)
-                        }
-                    )
-                }
-            )
-
-            navigate({
-                pathname,
-                //search: `?search=${str}`
-            });
+            //}
+            //else {
+            // getAllCategories().then(data => {
+            //     //console.log(data);
+            //     setCatalog(data.categories);
+            //     setFilteredCatalog(data.categories);
+            // })
         }
     }
 
-    useEffect(() => {
-        getOauth().then(
+    useEffect(
+
+        //function getGoods() {
+        () =>{
+
+            getOauth().then(
+                data => {
+                     console.log(data)
+                    getAllGoods(data).then(
+                        //data_prods =>
+                        //console.log('gg==', data_prods)
+                       goods => setGoods(goods)
+                    )
+                }
+            )
+        // TODO
+        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product/default';
+        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product_variation/default';
+
+        /*
+        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
+
+        const data = {
+            'grant_type': GRANT_TYPE,
+            'client_id': CLIENT_ID,
+            'client_secret': CLIENT_SECRET,
+            'scope': SCOPE,
+            'username': USERNAME,
+            'password': PASSWORD,
+        }
+        fetch(oauth_shop_url, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/vnd.api+json',
+                //'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json',
+                'mode': 'no-cors'
+                //'X-CSRF-Token': result
+            },
+            body: JSON.stringify(data),
+        }).then(
+            (result) => result.json()
+            //(result) => console.log(result.json())
+        ).then(
+            //data => console.log(data.shop)
             data => {
-                //console.log(data)
-                getAllGoods(data).then(
+                // FETCH DATA Using oauth access_token.
+                console.log(data.access_token)
+                const drupal_shop_url = SHOP_URL + API_PRODUCTS;
+                fetch(drupal_shop_url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + data.access_token
+                    },
+
+                }).then(
+                    (result) => result.json()
+                    //(result) => console.log(result.json())
+                ).then(
                     data => {
                         setGoods(data)
-
-                        setFilteredGoods(search ?
-                            data.filter(item =>
-                                item.displayName
-                                    .toLowerCase()
-                                    .includes(search.split('=')[1].toLowerCase())
-                            ) : data);
                     }
                 )
-
             }
-        )
+        ).catch((error) => {
+            console.log(error)
+        });
 
-    }, [search]);
+        */
+
+    }, [goods]);
 
     return <main className="container content">
         {loading ? (
             <Preloader/>
         ) : (
             <>
-                {/*<Search cb={handleSearch}/>*/}
-                {/*<PaginatedItems itemsPerPage={12} goods={goods}/>*/}
-                <PaginatedItems itemsPerPage={10} goods={filteredGoods} search={search}/>
+                <Search cb={handleSearch}/>
+                <PaginatedItems itemsPerPage={12} goods={goods}/>
             </>
         )}
     </main>
