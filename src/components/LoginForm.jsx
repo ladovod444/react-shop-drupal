@@ -1,16 +1,6 @@
-import React, {Component, useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {
-    API_PRODUCTS,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    GRANT_TYPE,
-    OAUTH_TOKEN_URL,
-    PASSWORD,
-    SCOPE,
-    SHOP_URL,
-    USERNAME
-} from "../config";
+import {SHOP_URL} from "../config";
 
 import {ShopContext} from "../context";
 
@@ -21,8 +11,8 @@ function LoginForm(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [current_user,setCurrentUSer] = useState(false);
-    const [statusMessage,setStatusMessage] = useState(false);
+    const [current_user, setCurrentUSer] = useState(false);
+    const [statusMessage, setStatusMessage] = useState(false);
 
     const handleChange = (event) => {
         console.log(event.target.value)
@@ -41,17 +31,16 @@ function LoginForm(props) {
         }
     }
 
-    const handleshowForm = (event) => {
-       // this.setState({showForm: !this.state.showForm})
+    const handleShowForm = (event) => {
+        // this.setState({showForm: !this.state.showForm})
         setShowForm(!showForm)
     }
 
-    const handleLogin = () => {
+    const loginUserAsync = async () => {
         const csrfToken = 'test';
-
         // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
         const login_url = SHOP_URL + '/user/login?_format=json'
-        fetch(login_url, {
+        const response = await fetch(login_url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -61,26 +50,30 @@ function LoginForm(props) {
                 'name': username,
                 'pass': password,
             }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                    console.log('Success', data);
-                    if (data.current_user) {
-                        localStorage.setItem('current_user', JSON.stringify(data.current_user));
-                        //this.setState({current_user: data.current_user, showForm: false})
-                        setCurrentUSer(data.current_user);
-                        setShowForm(false)
-                        props.hideRegister(false)
-                        console.log(data.current_user)
-                        //return
-                        loginUser(data.current_user.name)
-                    }
-                    else {
-                        console.log(data.message)
-                        setStatusMessage(data.message)
-                    }
+        });
+        return await response.json();
+    }
+
+    const handleLogin = () => {
+        const csrfToken = 'test';
+
+        // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
+        const login_url = SHOP_URL + '/user/login?_format=json'
+        loginUserAsync().then(data => {
+                console.log('Success', data);
+                if (data.current_user) {
+                    localStorage.setItem('current_user', JSON.stringify(data.current_user));
+                    //this.setState({current_user: data.current_user, showForm: false})
+                    setCurrentUSer(data.current_user);
+                    setShowForm(false)
+                    props.hideRegister(false)
+                    loginUser(data.current_user.name)
+                } else {
+                    console.log(data.message)
+                    setStatusMessage(data.message)
                 }
-            );
+            }
+        );
     }
 
     const validateName = () => {
@@ -116,49 +109,45 @@ function LoginForm(props) {
         }
     }, []);
 
-    //render() {
-        //const {username, email, password, showForm, current_user, statusMessage} = this.state;
-        return <div className="loginFormWrapper">
-            {showForm ? (<div className='loginForm'>
-
-                <div className="form-header"><i className="material-icons form-close" onClick={handleshowForm}>close</i></div>
-                <div className="form-inputs">
-                    <div className="login-status">{statusMessage}</div>
-                    <input
-                        type="text"
-                        placeholder="username"
-                        name="username"
-                        value={username}
-                        onChange={handleChange}
-                        onBlur={validateName}
-                    />
-                    {/*<input*/}
-                    {/*    type="email"*/}
-                    {/*    placeholder="email"*/}
-                    {/*    name="email"*/}
-                    {/*    value={email}*/}
-                    {/*    onChange={this.handleChange}*/}
-                    {/*    onBlur={this.validateMail}*/}
-                    {/*/>*/}
-                    <input
-                        type="password"
-                        placeholder="password"
-                        name="password"
-                        value={password}
-                        onChange={handleChange}
-                        onBlur={validatePassword}
-                    />
-                    <button className="secondary-content btn-small" onClick={handleLogin}>Login</button>
-                </div>
-            </div>) : ''}
-            {
-                !current_user && !current_user.name ? (
-                        <a className="toggleLoginForm" href="#" onClick={handleshowForm}>Login</a>)
-                    : (<span className="currentUser"> Hello: <Link className="user-page-link" to="/user/">{current_user.name}</Link>
-                        <div className="divider"></div> <a className="logout" href="#" onClick={Logout}>Logout</a> </span>)
-            }
-        </div>
-    //}
+    return <div className="loginFormWrapper">
+        {showForm ? (<div className='loginForm'>
+            <div className="form-header"><i className="material-icons form-close" onClick={handleShowForm}>close</i>
+            </div>
+            <div className="form-inputs">
+                <div className="login-status">{statusMessage}</div>
+                <input
+                    type="text"
+                    placeholder="username"
+                    name="username"
+                    value={username}
+                    onChange={handleChange}
+                    onBlur={validateName}
+                />
+                {/*<input*/}
+                {/*    type="email"*/}
+                {/*    placeholder="email"*/}
+                {/*    name="email"*/}
+                {/*    value={email}*/}
+                {/*    onChange={this.handleChange}*/}
+                {/*    onBlur={this.validateMail}*/}
+                {/*/>*/}
+                <input
+                    type="password"
+                    placeholder="password"
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                    onBlur={validatePassword}
+                />
+                <button className="secondary-content btn-small" onClick={handleLogin}>Login</button>
+            </div>
+        </div>) : ''}
+        {
+            !current_user && !current_user.name ? (<a className="toggleLoginForm" href="#" onClick={handleShowForm}>Login</a>)
+                : (<span className="currentUser"> Hello: <Link className="user-page-link" to="/user/">{current_user.name}</Link>
+                    <div className="divider"></div> <a className="logout" href="#" onClick={Logout}>Logout</a> </span>)
+        }
+    </div>
 }
 
 export default LoginForm;

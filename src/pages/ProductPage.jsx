@@ -1,85 +1,46 @@
 import {useParams, useNavigate} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
-import {
-    API_PRODUCT,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    GRANT_TYPE,
-    OAUTH_TOKEN_URL,
-    PASSWORD,
-    SCOPE,
-    SHOP_URL,
-    USERNAME
-} from "../config";
+import {API_PRODUCT, SHOP_URL} from "../config";
 import Preloader from "../components/Preloader";
 import {ShopContext} from "../context";
+import {getOauth} from "../oauth";
 
 //import useHistory from
 function ProductPage() {
     const {id} = useParams();
     const navigate = useNavigate();
 
-    const [good, setGood] = useState([]);
+    const [product, setProduct] = useState([]);
     const {addToCart} = useContext(ShopContext);
 
-    useEffect(function getGood() {
-        // TODO
-        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product/default';
-        //const drupal_shop_url =  'http://shop.local/jsonapi/commerce_product_variation/default';
-        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
-
-        const data = {
-            'grant_type': GRANT_TYPE,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'scope': SCOPE,
-            'username': USERNAME,
-            'password': PASSWORD,
-        }
-        fetch(oauth_shop_url, {
-            method: 'post',
+    const getProduct = async (data) => {
+        //console.log(data.access_token)
+        const drupal_shop_products_url = SHOP_URL + API_PRODUCT + id;
+        const response = await fetch(drupal_shop_products_url, {
+            method: 'GET',
             headers: {
-                'Accept': 'application/vnd.api+json',
-                //'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Type': 'application/json',
-                'mode': 'no-cors'
-                //'X-CSRF-Token': result
+                'Authorization': 'Bearer ' + data.access_token
             },
-            body: JSON.stringify(data),
-        }).then(
-            (result) => result.json()
-            //(result) => console.log(result.json())
-        ).then(
-            //data => console.log(data.shop)
-            data => {
-                // FETCH DATA Using oauth access_token.
-                console.log(data.access_token)
-                const drupal_shop_url = SHOP_URL + API_PRODUCT + id;
-                console.log('drupal_shop_url =' + drupal_shop_url)
-                fetch(drupal_shop_url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + data.access_token
-                    },
+        });
+        return await response.json();
+    }
 
-                }).then(
-                    (result) => result.json()
-                    //(result) => console.log(result.json())
-                ).then(
+    useEffect(() => {
+        getOauth().then(
+            data => {
+                getProduct(data).then(
                     data => {
-                        console.log(data)
-                        setGood(data)
-                        //
+                        setProduct(data)
                     }
                 )
-            }
-        ).catch((error) => {
-            console.log(error)
-        });
-    }, [])
 
-    if (good.length) {
+            }
+        )
+
+    }, []);
+
+    if (product.length) {
         const {
             mainId,
             displayName,
@@ -87,7 +48,7 @@ function ProductPage() {
             price,
             displayAssets,
             //addToCart = Function.prototype
-        } = good[0]
+        } = product[0]
         const url = SHOP_URL + displayAssets;
         const formated_price = parseInt(price);
         return <>

@@ -79,7 +79,7 @@ function UserPage() {
             <div className='product-not-found'><Preloader/></div>
         </>
     }
-    
+
 }
 
 export {UserPage}
