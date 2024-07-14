@@ -1,16 +1,8 @@
 import {useParams, useNavigate, json, Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
-    API_PRODUCTS,
     API_USER,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    GRANT_TYPE,
-    OAUTH_TOKEN_URL,
-    PASSWORD,
-    SCOPE,
-    SHOP_URL,
-    USERNAME
+    SHOP_URL
 } from "../config";
 import Preloader from "../components/Preloader";
 import {getOauth} from "../oauth";
@@ -19,8 +11,6 @@ import {getOauth} from "../oauth";
 function UserPage() {
     //const {id} = useParams();
     const navigate = useNavigate();
-    //console.log(id)
-
     const [user, setUser] = useState([]);
 
     const getUser = async (data) => {
@@ -89,8 +79,7 @@ function UserPage() {
             <div className='product-not-found'><Preloader/></div>
         </>
     }
-
-
+    
 }
 
 export {UserPage}
