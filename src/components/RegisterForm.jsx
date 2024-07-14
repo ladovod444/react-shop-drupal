@@ -1,37 +1,17 @@
-import React, {Component} from "react";
-import {useEffect, useContext, useState} from "react";
+import React from "react";
+import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import {
-    API_PRODUCTS,
-    CLIENT_ID,
-    CLIENT_SECRET,
-    GRANT_TYPE,
-    OAUTH_TOKEN_URL,
-    PASSWORD,
-    SCOPE,
-    SHOP_URL,
-    USERNAME,
-    API_USER_REGISTER, API_CREATE_ORDER
-} from "../config";
-import {ShopContext} from "../context";
+import {SHOP_URL} from "../config";
+import {getOauth} from "../oauth";
 
 function RegisterForm({hideLogin}) {
 
     let user = ''
-
-
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showForm, setShowForm] = useState('');
     const [current_user, setCurrent_user] = useState(user);
-
-    // useEffect(function getGoods() {
-    //     if (localStorage.getItem('current_user')) {
-    //         const user = JSON.parse(localStorage.getItem('current_user'));
-    //         setCurrent_user(user)
-    //     }
-    // }, []);
 
     const handleChange = (event) => {
         //console.log(event.target.value)
@@ -72,38 +52,26 @@ function RegisterForm({hideLogin}) {
         }
     }
 
-    const handleRegister = () => {
-        //const csrfToken = 'test';
-        // const username = username
-        // const password = password
-
-        // https://www.drupalchamp.org/blog/user-login-rest-api-drupal8
-        // @todo change
-        //const login_url = SHOP_URL + '/user/login?_format=json'
-        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
-
-        const data = {
-            'grant_type': GRANT_TYPE,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'scope': SCOPE,
-            'username': USERNAME,
-            'password': PASSWORD,
-        }
-        fetch(oauth_shop_url, {
-            method: 'post',
+    const registerUser = async (data) => {
+        const register_url = SHOP_URL + '/api/user-registration'
+        console.log('reg data=', data.access_token)
+        const response = await fetch(register_url, {
+            method: 'POST',
             headers: {
-                'Accept': 'application/vnd.api+json',
-                //'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Type': 'application/json',
-                'mode': 'no-cors'
-                //'X-CSRF-Token': result
+                'Authorization': 'Bearer ' + data.access_token
             },
-            body: JSON.stringify(data),
-        }).then(
-            (result) => result.json()
-            //(result) => console.log(result.json())
-        ).then(
+            body:JSON.stringify({
+                'username': username,
+                'mail': email,
+                'pass': password,
+            }),
+        });
+        return await response.json();
+    }
+
+    const handleRegister = () => {
+        getOauth().then(
             //data => console.log(data.shop)
             data => {
                 //const register_url = SHOP_URL + API_USER_REGISTER + '?_format=json'
@@ -117,35 +85,24 @@ function RegisterForm({hideLogin}) {
                     'pass': password,
                 });
 
-                fetch(register_url, {
-                    method: 'POST',
-                    headers: {
-                        'Access-Control-Allow-Origin': SHOP_URL,
-                        //'Accept': 'application/vnd.api+json',
-                        'Content-Type': 'application/json',
-                        'X-CSRF-Token': data.access_token,
-                        //'mode': 'no-cors'
-                    },
-                    body: body,
-
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                            console.log('Success', data);
-                            if (data.status === 'Success') {
-                                const login_current_user = {
-                                    name: username,
-                                    //mail: email,
-                                    uid: data.uid,
-                                }
-                                localStorage.setItem('current_user', JSON.stringify(login_current_user));
-                                setCurrent_user(login_current_user)
-                                hideLogin(false)
-                                setShowForm(false)
+                registerUser(data).then(
+                    data => {
+                        console.log('Success', data);
+                        if (data.status === 'Success') {
+                            const login_current_user = {
+                                name: username,
+                                //mail: email,
+                                uid: data.uid,
                             }
+                            localStorage.setItem('current_user', JSON.stringify(login_current_user));
+                            setCurrent_user(login_current_user)
+                            hideLogin(false)
+                            setShowForm(false)
                         }
-                    )
-            })
+                    }
+                )
+            }
+        )
     }
 
 
@@ -197,7 +154,8 @@ function RegisterForm({hideLogin}) {
             !current_user && !current_user.name ? (
                     <a className="toggleLoginForm" href="#" onClick={handleShowForm}>Register</a>)
                 : (<span className="currentUser"> Hello: <Link to="/user/">{current_user.name}</Link>
-                        <div className="divider"></div> <a className="logout" href="#" onClick={Logout}>Logout</a> </span>)
+                        <div className="divider"></div> <a className="logout" href="#"
+                                                           onClick={Logout}>Logout</a> </span>)
         }
     </div>
     //}
