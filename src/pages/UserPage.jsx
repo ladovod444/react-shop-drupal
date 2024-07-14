@@ -1,6 +1,7 @@
 import {useParams, useNavigate, json, Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {
+    API_PRODUCTS,
     API_USER,
     CLIENT_ID,
     CLIENT_SECRET,
@@ -12,6 +13,7 @@ import {
     USERNAME
 } from "../config";
 import Preloader from "../components/Preloader";
+import {getOauth} from "../oauth";
 
 //import useHistory from
 function UserPage() {
@@ -21,61 +23,35 @@ function UserPage() {
 
     const [user, setUser] = useState([]);
 
-    useEffect(function getGood() {
-
-        const oauth_shop_url = SHOP_URL + OAUTH_TOKEN_URL;
-        const data = {
-            'grant_type': GRANT_TYPE,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'scope': SCOPE,
-            'username': USERNAME,
-            'password': PASSWORD,
-        }
-        fetch(oauth_shop_url, {
-            method: 'post',
+    const getUser = async (data) => {
+        //console.log(data.access_token)
+        const current_user = JSON.parse(localStorage.getItem('current_user'));
+        //console.log(current_user.uid);
+        const drupal_user_url = SHOP_URL + API_USER + current_user.uid;
+        const response = await fetch(drupal_user_url, {
+            method: 'GET',
             headers: {
-                'Accept': 'application/vnd.api+json',
-                //'Content-Type': 'application/x-www-form-urlencoded',
                 'Content-Type': 'application/json',
-                'mode': 'no-cors'
-                //'X-CSRF-Token': result
+                'Authorization': 'Bearer ' + data.access_token
             },
-            body: JSON.stringify(data),
-        }).then(
-            (result) => result.json()
-            //(result) => console.log(result.json())
-        ).then(
-            //data => console.log(data.shop)
-            data => {
-                // FETCH user DATA Using oauth access_token.
-                console.log(data.access_token)
-                const current_user = JSON.parse(localStorage.getItem('current_user'));
-                console.log(current_user.uid);
-                const drupal_user_url = SHOP_URL + API_USER + current_user.uid;
-                // console.log('drupal_shop_url =' + drupal_shop_url)
-                fetch(drupal_user_url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + data.access_token
-                    },
+        });
+        return await response.json();
+    }
 
-                }).then(
-                    (result) => result.json()
-                    //(result) => console.log(result.json())
-                ).then(
+    useEffect(() => {
+        getOauth().then(
+            data => {
+                //console.log(data)
+                getUser(data).then(
                     data => {
-                        console.log(data)
                         setUser(data)
-                        //
                     }
                 )
+
             }
-        ).catch((error) => {
-            console.log(error)
-        });
-    }, [])
+        )
+
+    }, []);
 
     if (user.length) {
         const {
