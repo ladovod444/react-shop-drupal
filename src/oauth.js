@@ -21,7 +21,14 @@ const getOauth = async () => {
         },
         body: JSON.stringify(data),
     });
+
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+    }
     return await response.json();
+
+    //return await response.json();
 }
 
 export {getOauth}

@@ -12,12 +12,15 @@ function Shop() {
         goods,
         loading,
         order,
-        setGoods
+        setGoods,
     } = useContext(ShopContext);
 
     const [filteredGoods, setFilteredGoods] = useState([])
 
     const {pathname, search} = useLocation();
+
+    const [error, setError] = useState(null)
+
     let navigate = useNavigate();
 
     const getAllGoods = async (data) => {
@@ -28,6 +31,11 @@ function Shop() {
                 'Authorization': 'Bearer ' + data.access_token
             },
         });
+        if (!response.ok) {
+            //const message = `An error has occured: ${response.status}`;
+            const message = 'Error while loading products';
+            throw new Error(message);
+        }
         return await response.json();
     }
 
@@ -81,14 +89,21 @@ function Shop() {
                                     .includes(search.split('=')[1].toLowerCase())
                             ) : data);
                     }
-                )
+                ).catch(error => {
+                    setError(error)
+                    //console.log(error.message); // 'An error has occurred: 404'
+                });
 
             }
-        )
+        ).catch(error => {
+            setError(error)
+            console.log(error.message); // 'An error has occurred: 404'
+        });
 
     }, [search]);
 
     return <main className="container content">
+        {error ? <p>{error.message}</p> : <>
         {loading ? (
             <Preloader/>
         ) : (
@@ -98,6 +113,7 @@ function Shop() {
                 <PaginatedItems itemsPerPage={12} goods={filteredGoods} search={search}/>
             </>
         )}
+            </>}
     </main>
 }
 
