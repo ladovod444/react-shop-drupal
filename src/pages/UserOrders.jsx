@@ -4,7 +4,6 @@ import {
     CLIENT_ID,
     CLIENT_SECRET,
     GRANT_TYPE,
-    OAUTH_TOKEN_URL,
     PASSWORD,
     SCOPE,
     SHOP_URL,
@@ -17,6 +16,8 @@ import {getOauth} from "../oauth";
 function UserOrders() {
     const [orders, setOrders] = useState([]);
 
+    const current_user = JSON.parse(localStorage.getItem('current_user'))
+
     const cancelOrder = (order_id) => {
         console.log(order_id)
         const newOrders = orders.filter(order =>
@@ -25,14 +26,14 @@ function UserOrders() {
         setOrders(newOrders)
 
         // Update order
-        const data = {
-            'grant_type': GRANT_TYPE,
-            'client_id': CLIENT_ID,
-            'client_secret': CLIENT_SECRET,
-            'scope': SCOPE,
-            'username': USERNAME,
-            'password': PASSWORD,
-        }
+        // const data = {
+        //     'grant_type': GRANT_TYPE,
+        //     'client_id': CLIENT_ID,
+        //     'client_secret': CLIENT_SECRET,
+        //     'scope': SCOPE,
+        //     'username': USERNAME,
+        //     'password': PASSWORD,
+        // }
 
         const drupal_shop_url= SHOP_URL + API_CREATE_ORDER + '/' + order_id;
         fetch(drupal_shop_url, {
@@ -62,7 +63,9 @@ function UserOrders() {
     const getUserOrders = async (data) => {
         console.log(data.access_token)
         const current_user = JSON.parse(localStorage.getItem('current_user'));
-        console.log(current_user.uid);
+        // console.log(current_user);
+        // console.log(current_user.uid);
+
         const drupal_user_orders_url = SHOP_URL + '/api/v3/user/' + current_user.uid + '/orders';
         console.log(drupal_user_orders_url)
         const response = await fetch(drupal_user_orders_url, {
@@ -75,24 +78,27 @@ function UserOrders() {
         return await response.json();
     }
     useEffect(() => {
-        getOauth().then(
-            data => {
-                getUserOrders(data).then(
-                    data => {
-                        setOrders(data)
-                    }
-                )
+        if (current_user) {
+            getOauth().then(
+                data => {
+                    getUserOrders(data).then(
+                        data => {
+                            setOrders(data)
+                        }
+                    )
 
-            }
-        )
+                }
+            )
+        }
 
     }, []);
 
     return <div className="container content"><h1>My orders</h1>
-        {orders.length ? orders.map(order =>
+        {current_user && orders.length ? orders.map(order =>
             //<OrderItem key={order.order_id} {...order} />
             <Order key={order.order_id} {...order} cancelOrder={cancelOrder} />
         ) : <Preloader />
+
 
         }
     </div>

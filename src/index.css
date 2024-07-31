@@ -90,6 +90,13 @@ code {
   min-height: 200px;
   z-index: 2;
   margin: 5rem;
+  padding: 30px;
+  box-shadow: 1px 1px 2px 2px #ccc;
+  border-radius: 3px;
+}
+
+.contact-email, .contact-message {
+  margin-bottom: 30px;
 }
 
 .loginForm, .registerForm {
@@ -285,6 +292,14 @@ ul[role="navigation"] > li a[aria-current="page"] {
 
 .goods .card .card-content {
   padding: 14px;
+}
+
+.create-order button {
+  float: right;
+}
+
+.collection-item.create-order {
+  float: right;
 }
 
 /*#container {*/

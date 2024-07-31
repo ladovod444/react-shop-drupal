@@ -1,9 +1,10 @@
 import {useParams, useNavigate} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {API_PRODUCT, SHOP_URL} from "../config";
 import Preloader from "../components/Preloader";
 import {ShopContext} from "../context";
 import {getOauth} from "../oauth";
+import Button from "@mui/material/Button";
 
 //import useHistory from
 function ProductPage() {
@@ -65,20 +66,27 @@ function ProductPage() {
                         }</p>
                     </div>
                     <div className="card-action">
-                        <button className='btn'
-                                onClick={() => addToCart({
-                                    mainId,
-                                    displayName,
-                                    price
-                                })
-                                }
-                        >Купить
-                        </button>
+                        {/*<button className='btn'*/}
+                        {/*        onClick={() => addToCart({*/}
+                        {/*            mainId,*/}
+                        {/*            displayName,*/}
+                        {/*            price*/}
+                        {/*        })*/}
+                        {/*        }*/}
+                        {/*>Купить*/}
+                        {/*</button>*/}
+                        <Button onClick={() => addToCart({
+                            mainId,
+                            displayName,
+                            price
+                        })
+                        } variant="contained">Add to cart</Button>
                         <span className="right" style={{fontSize: ' 1.8rem'}}>{formated_price} r.</span>
                     </div>
-                    <button className='btn' onClick={() => navigate(-1)}>
-                        To all products
-                    </button>
+                    {/*<button className='btn' onClick={() => navigate(-1)}>*/}
+                    {/*    To all products*/}
+                    {/*</button>*/}
+                    <Button onClick={() => navigate(-1)} variant="contained">To products list</Button>
                 </div>
             </div>
         </>

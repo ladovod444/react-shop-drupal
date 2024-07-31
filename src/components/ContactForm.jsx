@@ -1,6 +1,8 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {API_SEND_CONTACTS_FORM, API_USER, SHOP_URL} from "../config";
 import {getOauth} from "../oauth";
+import TextField from '@mui/material/TextField';
+import Button from "@mui/material/Button";
 
 function ContactForm(props) {
 
@@ -105,12 +107,36 @@ function ContactForm(props) {
     return <div>
         <h5>{title ? title : 'No title'}</h5>
         {/*<input name="header" placeholder="Enter child header" onChange={handleChange} type="text"/>*/}
-        {showName ? <input name="name" placeholder="Enter name" onChange={handleChange} type="text"/> : ''}
-        <input name="email" placeholder="Enter email" onChange={handleChange} type="text"/>
-        <textarea name="message" placeholder="Enter message" onChange={handleChange}></textarea>
-        <button className="submit" onClick={() => cb(header)}>Send</button>
-        {showSubmit ? <button className="submit" onClick={formSubmit}>Send message</button> : ''}
-        {/*<button className="submit" onClick={sendMessage}>Send message</button>*/}
+        {showName ? <input name="name" className="contact-name" placeholder="Enter name" onChange={handleChange} type="text"/> : ''}
+        <input className="contact-email" name="email" placeholder="Enter email" onChange={handleChange} type="text"/>
+
+        {/*<p>*/}
+        {/*    <TextField*/}
+        {/*        required*/}
+        {/*        id="outlined-required"*/}
+        {/*        label="Required"*/}
+        {/*        defaultValue="Hello World"*/}
+        {/*    />*/}
+        {/*</p>*/}
+
+        {/*<p>*/}
+        {/*    <TextField*/}
+        {/*        id="standard-textarea"*/}
+        {/*        label="Multiline Placeholder"*/}
+        {/*        placeholder="Placeholder"*/}
+        {/*        multiline*/}
+        {/*        variant="standard"*/}
+        {/*    />*/}
+        {/*</p>*/}
+            <textarea className="contact-message" name="message" placeholder="Enter message" onChange={handleChange}></textarea>
+            {/*<button className="submit" onClick={() => cb(header)}>Send</button>*/}
+            {/*<Button onClick={formSubmit} variant="contained">Send message</Button>*/}
+            {showSubmit ?
+                // <button className="submit" onClick={formSubmit}>Send message</button>
+                <Button onClick={formSubmit} variant="contained">Send message</Button>
+                : ''
+            }
+            {/*<button className="submit" onClick={sendMessage}>Send message</button>*/}
     </div>
 }
 

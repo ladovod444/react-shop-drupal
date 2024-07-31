@@ -1,5 +1,6 @@
 //import {useEffect, useContext, useState} from "react";
 import OrderItem from "./OrderItem";
+import Button from "@mui/material/Button";
 
 function Order(props) {
     const {
@@ -45,7 +46,8 @@ function Order(props) {
             <p className="total-sum">Total sum: {total_price}</p>
         </div>
          {/*If state is new user can remove order*/}
-        {state == 'New' ? <button onClick={() => cancelOrder(order_id)}>Cancel order</button> : '' }
+        {/*{state == 'New' ? <button onClick={() => cancelOrder(order_id)}>Cancel order</button> : '' }*/}
+        {state == 'New' ? <Button onClick={() => cancelOrder(order_id)} variant="contained">Cancel order</Button> : '' }
     </div>
 }
 

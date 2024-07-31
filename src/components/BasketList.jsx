@@ -2,6 +2,7 @@ import React, {useContext, useState} from "react";
 import {ShopContext} from "../context";
 import BasketItem from "./BasketItem";
 import {API_CREATE_ORDER, SHOP_URL} from "../config";
+import Button from "@mui/material/Button";
 function BasketList() {
     let {
         order = [],
@@ -124,8 +125,9 @@ function BasketList() {
 
                 {/*{ current_user || (email && validateMail(email)) ?*/}
                 { current_user || (email && isValidMail) ?
-                <li className="collection-item ">
-                    <button className="secondary-content btn-small" onClick={handleOrderCreate}>Оформить</button>
+                <li className="collection-item create-order">
+                    {/*<button className="secondary-content btn-small" onClick={handleOrderCreate}>Оформить</button>*/}
+                    <Button onClick={handleOrderCreate} variant="contained">Create order</Button>
                 </li> : ''
                 }
 

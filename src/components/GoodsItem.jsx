@@ -2,6 +2,7 @@ import {useContext} from "react";
 import {ContextProvider, ShopContext} from "../context";
 import {Link} from "react-router-dom";
 import {SHOP_URL} from "../config";
+import Button from "@mui/material/Button";
 
 function GoodsItem(props) {
     const {
@@ -32,14 +33,22 @@ function GoodsItem(props) {
             <p><Link to={`/product/${mainId}`}>Show more</Link> </p>
         </div>
         <div className="card-action">
-            <button className='btn' onClick={() => addToCart({
+
+            <Button onClick={() => addToCart({
                 variation_id,
                 mainId,
                 displayName,
                 price
-            })
-            }>Купить
-            </button>
+            })} variant="contained">Add to cart</Button>
+
+            {/*<button className='btn' onClick={() => addToCart({*/}
+            {/*    variation_id,*/}
+            {/*    mainId,*/}
+            {/*    displayName,*/}
+            {/*    price*/}
+            {/*})*/}
+            {/*}>Купить*/}
+            {/*</button>*/}
             {/*<span className="right" style={{fontSize:' 1.8rem'}}>{price.regularPrice} r.</span>*/}
             {/*<span className="right" style={{fontSize:' 1.8rem'}}>{price} r.</span>*/}
             <span className="right" style={{fontSize: ' 1.8rem'}}>{formated_price} r.</span>

@@ -1,5 +1,6 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import {useLocation} from "react-router-dom";
+import Button from "@mui/material/Button";
 
 
 function Search({cb = Function.prototype}) {
@@ -37,15 +38,26 @@ function Search({cb = Function.prototype}) {
                 onChange={(e) => setValue(e.target.value)}
                 value={value}
             />
-            <button
-                className="btn"
+            {/*<button*/}
+            {/*    className="btn"*/}
+            {/*    style={{*/}
+            {/*        position:"absolute",*/}
+            {/*        top: 0,*/}
+            {/*        right: 0,*/}
+            {/*    }}*/}
+            {/*    onClick={handleSubmit}*/}
+            {/*>Search</button>*/}
+
+            <Button
+                onClick={handleSubmit}
+                variant="contained"
                 style={{
                     position:"absolute",
                     top: 0,
                     right: 0,
                 }}
-                onClick={handleSubmit}
-            >Search</button>
+            >Search</Button>
+
         </div>
     </div>
 }
