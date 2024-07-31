@@ -13,16 +13,25 @@ function PaginatedItems({ itemsPerPage, goods }) {
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentItems = goods.slice(itemOffset, endOffset);
-    // const currentItems = goods.length > 10 ? goods.slice(itemOffset, endOffset) : goods;
+    //const currentItems = goods.slice(itemOffset, endOffset);
 
-    console.log(`Loading goods = ${goods}`);
-    console.log(`Loading items = ${currentItems}`);
+    // 20 goods
+    //itemOffset =
+
+
+    const currentItems = goods.length >= itemsPerPage ? goods.slice(itemOffset, endOffset) : goods;
+
+    //console.log(`Loading goods = ${goods}`);
+    console.log(goods);
+    console.log(itemOffset, endOffset)
+    console.log(currentItems)
+    //console.log(`Loading items = ${currentItems}`);
 
     const pageCount = Math.ceil(goods.length / itemsPerPage);
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
+        console.log(event.selected)
         const newOffset = (event.selected * itemsPerPage) % goods.length;
         console.log(
             `User requested page number ${event.selected}, which is offset ${newOffset}`

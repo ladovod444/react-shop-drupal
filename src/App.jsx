@@ -15,6 +15,7 @@ import {UserPage} from "./pages/UserPage";
 import UserOrders from "./pages/UserOrders";
 import ArticlesList from "./pages/ArticlesList";
 import Cart from "./components/Cart";
+import Test from "./pages/Test";
 
 // https://github.com/ladovod444/react-shop-drupal
 function App() {
@@ -33,6 +34,7 @@ function App() {
                         <Route path="/product/:id" Component={ProductPage}/>
                         <Route path="/user" Component={UserPage}/>
                         <Route path="/orders" Component={UserOrders}/>
+                        <Route path="/test" Component={Test}/>
                         <Route path="*" Component={NotFound}/>
                     </Routes>
                 </ContextProvider>

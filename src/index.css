@@ -77,6 +77,21 @@ code {
   z-index: 2;
 }
 
+.contactsForm {
+  /*position: fixed;*/
+  /*top: 50%;*/
+  /*left: 50%;*/
+  /*transform: translate(-50%, -50%);*/
+  background-color: #fff;
+  width: 50rem;
+  max-width: 95%;
+  /*box-shadow: #e4d5d5 1px 2px 9px 2px;*/
+  /*animation: show 500ms ease-in-out;*/
+  min-height: 200px;
+  z-index: 2;
+  margin: 5rem;
+}
+
 .loginForm, .registerForm {
   z-index: 3;
 
@@ -244,6 +259,32 @@ ul[role="navigation"] > li a[aria-current="page"] {
 
 .currentUser a.user-page-link {
   color: #1c4d6b;
+}
+
+.goods .card .card-image .card-title {
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+  padding: 24px;
+  background: #6c6565;
+  opacity: 0.5;
+  width: 100%;
+  min-height: 120px;
+}
+
+.goods .card {
+  min-height: 500px;
+}
+
+.goods .card .card-image {
+  position: relative;
+  min-height: 305px;
+}
+
+.goods .card .card-content {
+  padding: 14px;
 }
 
 /*#container {*/
