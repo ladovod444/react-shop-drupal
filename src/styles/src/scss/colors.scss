@@ -1,0 +1,16 @@
+
+body {
+  color: $simpleBodyColor;
+
+  .booking-rooms {
+    select {
+      color: $customBodyColor;
+      background: #dfe5ec;
+    }
+  }
+
+  .booking-rooms h1 {
+    color: gray;
+  }
+
+}

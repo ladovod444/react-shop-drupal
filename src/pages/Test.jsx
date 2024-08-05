@@ -11,8 +11,24 @@ export default function Test() {
     const sortedFruits = sort ? [...fruits].sort() :
         [...fruits].sort().reverse();
     const sortOrder = () => setSort((sort) => !sort);
+
+
+    const attributes =
+        { classes: "username", id: "name" }
+        // { name: "Банан", id: "2" },
+        // { name: "Яблоко", id: "3" },
+    ;
+
+    const {classes, id}  = attributes
+
+    console.log(classes)
+
+    //console.log([...fruit])
     return (
         <div>
+
+            <div {...attributes} >Sorting</div>
+
             <button onClick={sortOrder}>Сортировка</button>
             <ul>
                 {sortedFruits.map((fruit, index) => (

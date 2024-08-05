@@ -309,3 +309,48 @@ ul[role="navigation"] > li a[aria-current="page"] {
 /*.items {*/
 /*  margin-bottom: 1rem;*/
 /*}*/
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+  body a {
+    font-size: 0.9rem;
+  }
+}
+
+/* Portrait tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+  body a {
+    font-size: 0.95rem;
+  }
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+  body a {
+    font-size: 1rem;
+  }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+  body a {
+    font-size: 1.05rem;
+  }
+}
+
+/* Landscape phones and smaller */
+@media (max-width: 480px) {
+  body a {
+    font-size: 1.2rem;
+  }
+
+  .contactsForm {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 5%;
+    box-shadow: none;
+  }
+
+}

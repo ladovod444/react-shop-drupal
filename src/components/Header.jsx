@@ -6,6 +6,7 @@ import {useContext, useState} from "react";
 import {ShopContext} from "../context";
 import BasketList from "./BasketList";
 import Alert from "./Alert";
+
 function Header() {
     const {order, isBasketShow, alertName} = useContext(ShopContext);
 
@@ -20,13 +21,14 @@ function Header() {
         setShowLogin(res)
     }
 
-    return <div>
+    return <>
         <nav className="green darken-1">
             <div className="nav-wrapper">
                 <a href="/" className="brand-logo">React Shop</a>
                 {showLogin ? <LoginForm hideRegister={handleHideRegister}/> : ''}
                 <div className="divider"></div>
-                {showRegister ? <RegisterForm hideLogin={handleHideLogin} /> : ''}
+                {showRegister ? <RegisterForm hideLogin={handleHideLogin}/> : ''}
+                <a href="#" data-target="mobile-demo" className="sidenav-trigger"><i className="material-icons">menu</i></a>
                 <ul id="nav-mobile" className="right hide-on-med-and-down green darken-1">
                     <Link to='/'>Home</Link>
                     <Link to='/contact'>Contacts</Link>
@@ -34,16 +36,23 @@ function Header() {
                     <Link to='/articles'>Articles</Link>
                 </ul>
             </div>
-
         </nav>
+
+        <ul className="sidenav" id="mobile-demo">
+            <li><Link to='/'>Home</Link></li>
+            <li><Link to='/contact'>Contacts</Link></li>
+            <li><Link to='/about'>About</Link></li>
+            <li><Link to='/articles'>Articles</Link></li>
+        </ul>
+
         <Cart quantity={order.length}/>
         {isBasketShow &&
             (<BasketList/>
             )}
         {
-            alertName && <Alert />
+            alertName && <Alert/>
         }
-    </div>
+    </>
 }
 
 export default Header;
